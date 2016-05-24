@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis_mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gwang.spring.mybatis.demo.dao.AccountDao">
+    <sql id="TABLE">
+    account
+    </sql>
+    <sql id="SELECT_FIELDS">
+    id,<include refid="INSERT_FIELDS"/>
+    </sql>
+    <sql id="INSERT_FIELDS">
+    username,password,valid
+    </sql>
+    <sql id="INSERT_VALUES">
+    #{username},#{password}
+    </sql>
+    
+    <select id="search" resultType="Account">
+    	SELECT <include refid="SELECT_FIELDS"/> FROM <include refid="TABLE"/>
+        <where>
+	        <if test="ids != null and ids.size() > 0">
+		    	and id in
+	        	<foreach item="id" collection="ids" open="(" separator="," close=")">
+	            	#{id}
+	            </foreach>
+		    </if>
+		    <if test="username != null and username != ''">
+		    	and username = #{username}
+		    </if>
+	        AND valid=1
+	        LIMIT #{offset}, #{size}
+        </where>
+    </select>
+    
+    <select id="searchCount" resultType="int">
+    	SELECT count(1) FROM <include refid="TABLE"/>
+        <where>
+	        <if test="ids != null and ids.size() > 0">
+		    	and id in
+	        	<foreach item="id" collection="ids" open="(" separator="," close=")">
+	            	#{id}
+	            </foreach>
+		    </if>
+		    <if test="username != null and username != ''">
+		    	and username = #{username}
+		    </if>
+	        AND valid=1
+        </where>
+    </select>
+</mapper>

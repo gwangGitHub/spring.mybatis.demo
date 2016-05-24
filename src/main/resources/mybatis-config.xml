@@ -15,4 +15,9 @@
         <!-- 是否使用插入数据后自增主键的值，需要配合keyProperty使用 -->
         <setting name="useGeneratedKeys" value="true"/>
     </settings>
+    
+    <typeAliases>
+        <typeAlias type="com.gwang.spring.mybatis.demo.domain.Role" alias="Role"/>
+        <typeAlias type="com.gwang.spring.mybatis.demo.domain.Account" alias="Account"/>
+    </typeAliases>
 </configuration>
