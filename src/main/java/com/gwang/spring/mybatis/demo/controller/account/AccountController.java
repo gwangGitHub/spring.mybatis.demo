@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,8 @@ import com.gwang.spring.mybatis.demo.vo.AccountPage;
 @Controller
 @RequestMapping("/account")
 public class AccountController {
+	
+	final private Logger logger = LoggerFactory.getLogger(AccountController.class);
 
 	@Autowired
 	private AccountService accountService;
@@ -30,9 +34,10 @@ public class AccountController {
 		try {
 			AccountPage page = accountService.search(accountSearchParam);
 			model.addAttribute("page", page);
+			logger.info("acccount list.size:{},list:{}", page.getTotal(), page.getAccounts());
 			return "account/list";
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return "error";
 		}
 	}
@@ -46,7 +51,7 @@ public class AccountController {
 			model.addAttribute("account", account);
 			return model.addAttribute("success", true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return model.addAttribute("success", false);
 		}
 	}
@@ -65,7 +70,7 @@ public class AccountController {
 			model.addAttribute("accounts", accounts);
 			return model.addAttribute("success", true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return model.addAttribute("success", false);
 		}
 	}
@@ -84,7 +89,7 @@ public class AccountController {
 			model.addAttribute("accounts", accounts);
 			return model.addAttribute("success", true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return model.addAttribute("success", false);
 		}
 	}
@@ -98,7 +103,7 @@ public class AccountController {
 			model.addAttribute("page", page);
 			return model.addAttribute("success", true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return model.addAttribute("success", false);
 		}
 	}
@@ -111,7 +116,7 @@ public class AccountController {
 			accountService.changePassword(id, password);
 			return model.addAttribute("success", true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return model.addAttribute("success", false);
 		}
 	}
