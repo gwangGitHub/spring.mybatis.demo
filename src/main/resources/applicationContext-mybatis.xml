@@ -17,11 +17,11 @@
 		<property name="location" value="classpath:database.properties" />
 	</bean>
 
-	<bean id="defaultDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+	<bean id="masterDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${database.driverClassName}"/>
-        <property name="url" value="${database.dbBmDefault.url}"/>
-        <property name="username" value="${database.dbBmDefault.username}"/>
-        <property name="password" value="${database.dbBmDefault.password}"/>
+        <property name="url" value="${database.dbMaster.url}"/>
+        <property name="username" value="${database.dbMaster.username}"/>
+        <property name="password" value="${database.dbMaster.password}"/>
         <property name="initialSize" value="${jdbc.pool.initialSize}"/>
         <property name="maxTotal" value="${jdbc.pool.maxTotal}"/>
         <property name="maxIdle" value="${jdbc.pool.maxIdle}"/>
@@ -40,10 +40,51 @@
         <property name="removeAbandonedOnMaintenance" value="true"/>
         <property name="removeAbandonedTimeout" value="180"/>
     </bean>
+    
+    <bean id="slaveDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${database.driverClassName}"/>
+        <property name="url" value="${database.dbSlave.url}"/>
+        <property name="username" value="${database.dbSlave.username}"/>
+        <property name="password" value="${database.dbSlave.password}"/>
+        <property name="initialSize" value="${jdbc.pool.initialSize}"/>
+        <property name="maxTotal" value="${jdbc.pool.maxTotal}"/>
+        <property name="maxIdle" value="${jdbc.pool.maxIdle}"/>
+        <property name="minIdle" value="${jdbc.pool.minIdle}"/>
+        <property name="maxWaitMillis" value="${jdbc.pool.maxWait}"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="validationQuery" value="select current_date()"/>
+        <property name="validationQueryTimeout" value="1"/>
+        <property name="timeBetweenEvictionRunsMillis" value="40000"/>
+        <property name="numTestsPerEvictionRun" value="${jdbc.pool.maxIdle}"/>
+        <property name="minEvictableIdleTimeMillis" value="-1"/>
+        <property name="softMinEvictableIdleTimeMillis" value="1800000"/>
+        <property name="removeAbandonedOnBorrow" value="false"/>
+        <property name="removeAbandonedOnMaintenance" value="true"/>
+        <property name="removeAbandonedTimeout" value="180"/>
+    </bean>
+    
+    <!-- 动态数据源，继承于AbstractRoutingDataSource -->
+    <bean id="multipleDataSource" class="com.gwang.spring.mybatis.demo.datasource.MultipleDataSource">
+        <property name="targetDataSources">
+            <map key-type="com.gwang.spring.mybatis.demo.datasource.DataSources"> <!-- 数据源配置 -->
+                <entry key="MASTER" value-ref="masterDataSource"/>
+                <entry key="SLAVE" value-ref="slaveDataSource"/>
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="masterDataSource"/>
+        <!--默认数据源-->
+        <!--<property name="packageDataSource"> 包级别数据源配置-->
+        <!--<map>-->
+        <!--<entry key="com.gwang.spring.mybatis.demo.dao" value="dbBmRead"/>-->
+        <!--</map>-->
+        <!--</property>-->
+    </bean>
 
     <!--  sqlSessionFactory for mybatis -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="defaultDataSource"/>
+        <property name="dataSource" ref="multipleDataSource"/>
         <!-- 配置mybatis配置文件的位置 -->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <!-- 配置扫描Mapper XML的位置,如果没有的可以删除,Mapper XML的暂时不支持 -->

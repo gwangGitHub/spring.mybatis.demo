@@ -5,9 +5,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import com.gwang.spring.mybatis.demo.datasource.DataSource;
+import com.gwang.spring.mybatis.demo.datasource.DataSources;
 import com.gwang.spring.mybatis.demo.domain.Role;
 
 @Component
+@DataSource(DataSources.MASTER)
 public interface RoleDao {
 
 	public int insert(Role role);

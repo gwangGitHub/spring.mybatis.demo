@@ -14,9 +14,12 @@ import org.apache.ibatis.jdbc.SqlBuilder;
 import org.springframework.stereotype.Component;
 
 import com.gwang.spring.mybatis.demo.dao.helper.ListParamHelper;
+import com.gwang.spring.mybatis.demo.datasource.DataSource;
+import com.gwang.spring.mybatis.demo.datasource.DataSources;
 import com.gwang.spring.mybatis.demo.domain.Account;
 
 @Component
+@DataSource(DataSources.MASTER)
 public interface AccountDao {
 	public static final String TABLE = " account ";
 	public static final String INSERT_FIELDS = " username, password, valid";
