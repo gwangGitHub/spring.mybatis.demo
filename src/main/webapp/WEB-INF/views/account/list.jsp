@@ -7,6 +7,8 @@
 <title>account list</title>
 </head>
 <body>
+	<!-- 获取session中的数据 -->
+	${ sessionScope.total }
 	<table class="table table-striped" id="responsiveTable">
         <thead>
         <tr>

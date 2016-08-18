@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,11 @@ public class AccountController {
 	private AccountService accountService;
 	
 	@RequestMapping("/page/list")
-	public String accountListPage (AccountSearchParam accountSearchParam, Model model) {
+	public String accountListPage (AccountSearchParam accountSearchParam, Model model, HttpSession session) {
 		try {
 			AccountPage page = accountService.search(accountSearchParam);
+			//session中放数据
+			session.setAttribute("total", page.getTotal());
 			model.addAttribute("page", page);
 			logger.info("acccount list.size:{},list:{}", page.getTotal(), page.getAccounts());
 			return "account/list";
@@ -48,6 +52,7 @@ public class AccountController {
 		ModelMap model = new ModelMap();
 		try {
 			Account account = accountService.getAccountById(id);
+			logger.info("account:{}", account);
 			model.addAttribute("account", account);
 			return model.addAttribute("success", true);
 		} catch (Exception e) {
