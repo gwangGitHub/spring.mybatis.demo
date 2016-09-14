@@ -105,4 +105,11 @@
     <!-- <bean id="mybatisTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
     	<property name="dataSource" ref="dataSource" />
     </bean> -->
+    
+    <bean id="multiDataSourceAspect" class="com.gwang.spring.mybatis.demo.datasource.MultipleDataSourceAspect"/>
+    <aop:config>
+        <aop:aspect ref="multiDataSourceAspect">
+            <aop:around method="doAround" pointcut="execution(public * com.gwang.spring.mybatis.demo.dao..*.*(..))"/>
+        </aop:aspect>
+    </aop:config>
 </beans>

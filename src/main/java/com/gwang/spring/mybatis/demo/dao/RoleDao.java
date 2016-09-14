@@ -10,7 +10,7 @@ import com.gwang.spring.mybatis.demo.datasource.DataSources;
 import com.gwang.spring.mybatis.demo.domain.Role;
 
 @Component
-@DataSource(DataSources.MASTER)
+@DataSource(DataSources.SLAVE)
 public interface RoleDao {
 
 	public int insert(Role role);
