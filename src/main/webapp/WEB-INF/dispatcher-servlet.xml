@@ -51,10 +51,10 @@
     <task:scheduler id="scheduler" pool-size="10" />  
     <task:annotation-driven executor="executor" scheduler="scheduler" />  
 	
-	<!-- spring aop 调用接口性能监控 -->
+	<!-- spring aop 调用接口性能监控 注意:在dispatcher-servlet.xml 里只注入了controller层，所以只能监控controller层的性能-->
     <bean id="performanceMonitor" class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor" />
     <aop:config>
-        <aop:pointcut id="allServiceMethods" expression="execution(* com.gwang.spring.mybatis.demo..*.*(..))" />
-        <aop:advisor pointcut-ref="allServiceMethods" advice-ref="performanceMonitor"/>
+        <aop:pointcut id="allServiceMethods" expression="execution(* com.gwang.spring.mybatis.demo.controller..*.*(..))" />
+        <aop:advisor pointcut-ref="allServiceMethods" advice-ref="performanceMonitor" order="3"/>
     </aop:config>
 </beans>

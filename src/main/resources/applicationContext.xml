@@ -16,4 +16,10 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
+	<!-- spring aop 调用接口性能监控 -->
+    <bean id="performanceMonitor" class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor" />
+    <aop:config>
+        <aop:pointcut id="allServiceMethods" expression="execution(* com.gwang.spring.mybatis.demo.dao..*.*(..))" />
+        <aop:advisor pointcut-ref="allServiceMethods" advice-ref="performanceMonitor" order="2"/>
+    </aop:config>
 </beans>
