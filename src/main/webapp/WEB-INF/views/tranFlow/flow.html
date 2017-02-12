@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>交易流水接口测试</title>
+<script type="text/javascript" src="js/lib/jquery-1.7.2.js"></script>
+<style type="text/css">
+.tab{
+	border:1px solid #cccccc;
+	padding:10px 10px;
+	width:80%;
+	margin:5px 10%;
+	float:left;
+}
+p{
+	margin:5px 10px;
+}
+.input{
+	width:34%;
+	float:left;
+	margin:5px 10px;
+}
+.req{
+	width:30%;
+	float:left;
+	margin:5px 10px;
+}
+.result{
+	width:30%;
+	float:left;
+	margin:5px 10px;
+}
+.hover{
+    position:fixed;
+    right: 100px;
+    top:168px;
+    background-color: #dddddd;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    vertical-align: middle;
+}
+.hover .button{
+    margin:5px auto;
+}
+</style>
+</head>
+<body>
+    <div id="hover" class="hover">
+        <div id="back" class="button"><a href="main.html">返回</a></div>
+        <div id="up" class="button"><a href="#menu">向上</a></div>
+    </div>
+    <div id="menu" class="menu">
+        <ul>
+            <li>1000000-<a href="#orderQuery">交易流水查询</a></li>
+        </ul>
+    </div>
+
+	<div id="flowQuery" class="tab">
+		<div id="input" class="input">
+			<h3>1000000-交易流水查询</h3>
+			<p>服務编号：<input type="text" id="serviceId" value="1000000"/></p>
+			<p>流水编号：<input type="text" id="flowSeq" value=""/></p>
+			<p><button id="post">发送</button></p>
+		</div>
+		<div id="req" class="req"></div>
+		<div id="result" class="result"></div>
+	</div>
+	
+	<script type="text/javascript">
+
+		$("#flowQuery #post").click(function(){
+			var data = {
+					"serviceId":"1000000",
+					"flowSeq":$("#flowQuery #flowSeq").val()
+				};
+			JsonData = JSON.stringify(data);
+			$("#flowQuery #req").empty().append("发送报文：<pre>"+JSON.stringify(data,null,'    ')+"</pre>");
+			$.ajax({
+				url:"tranflow/getTranFlow",
+				type:"POST",
+			    dataType: 'json',
+			    contentType: "application/json",
+				data:data,
+				success:function(data){
+					$("#flowQuery #result").empty().append("返回报文：<pre>"+JSON.stringify(data,null,'    ')+"</pre>");
+				}
+			})
+		});
+
+	</script>
+</body>
+</html>

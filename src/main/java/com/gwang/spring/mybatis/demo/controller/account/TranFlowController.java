@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gwang.spring.mybatis.demo.domain.AccountSearchParam;
 import com.gwang.spring.mybatis.demo.domain.TranFlow;
 import com.gwang.spring.mybatis.demo.service.TranFlowService;
 
@@ -25,13 +24,14 @@ public class TranFlowController {
 	@Autowired
 	private TranFlowService tranFlowService;
 	
-	@RequestMapping("/list")
-	public String tranFlowList (AccountSearchParam accountSearchParam, Model model) {
+	@RequestMapping("/search")
+	public String searchTranFlow (Model model) {
 		try {
 //			AccountPage page = tranFlowService.search(accountSearchParam);
 //			model.addAttribute("page", page);
 //			logger.info("acccount list.size:{},list:{}", page.getTotal(), page.getAccounts());
-			return "account/list";
+			logger.info("search page");
+			return "tranFlow/flow";
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return "error";
