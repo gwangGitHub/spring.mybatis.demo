@@ -38,9 +38,9 @@ public class TranFlowController {
 		}
 	}
 	
-	@RequestMapping("/{id}")
+	@RequestMapping("/flow")
 	@ResponseBody
-	public Map<String, Object> getAccountInfoById (@PathVariable("id") int id) {
+	public Map<String, Object> getAccountInfoById (int id) {
 		ModelMap model = new ModelMap();
 		try {
 			TranFlow tranFlow = tranFlowService.getById(id);
