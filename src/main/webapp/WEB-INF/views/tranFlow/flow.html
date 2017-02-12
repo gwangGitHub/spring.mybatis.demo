@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 
 <head>
-<meta charset="UTF-8">
-<title>交易流水接口测试</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>交易流水查询</title>
 <script type="text/javascript" src="../js/lib/jquery-1.7.2.js"></script>
 <style type="text/css">
 .tab{
@@ -48,21 +48,21 @@ p{
 </head>
 <body>
     <div id="hover" class="hover">
-        <div id="back" class="button"><a href="main.html">Back</a></div>
-        <div id="up" class="button"><a href="#menu">Forword</a></div>
+        <div id="back" class="button"><a href="main.html">返回</a></div>
+        <div id="up" class="button"><a href="#menu">向上</a></div>
     </div>
     <div id="menu" class="menu">
         <ul>
-            <li><a href="#orderQuery">Search</a></li>
+            <li><a href="#orderQuery">交易流水查询</a></li>
         </ul>
     </div>
 
 	<div id="flowQuery" class="tab">
 		<div id="input" class="input">
-			<h3>Search</h3>
-			<p>Seq:<input type="text" id="serviceId" value="11"/></p>
-			<p>Num:<input type="text" id="flowSeq" value=""/></p>
-			<p><button id="post">POST</button></p>
+			<h3>交易流水查询</h3>
+			<p>服務编号:<input type="text" id="serviceId" value="11"/></p>
+			<p>流水编号:<input type="text" id="flowSeq" value=""/></p>
+			<p><button id="post">发送</button></p>
 		</div>
 		<div id="req" class="req"></div>
 		<div id="result" class="result"></div>
@@ -81,8 +81,8 @@ p{
 	            },
 	            success : function(data){
 	                if(data.success){
-	                	$("#flowQuery #result").empty().append("Result:<pre> tran_date:"+ data.tranFlow.tran_date +"</pre>"
-	                			+ "<pre> acc_no:"+ data.tranFlow.acc_no +"</pre>");
+	                	$("#flowQuery #result").empty().append("查询结果:<pre> 日期:"+ data.tranFlow.tran_date +"</pre>"
+	                			+ "<pre> 编号:"+ data.tranFlow.acc_no +"</pre>");
 	                }else {
 	                    alert(data.success);
 	                }
